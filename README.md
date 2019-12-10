@@ -15,10 +15,9 @@ https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture
 
 ```
 $max_num=file_get_contents('./images/max');
-echo '/images/'.mt_rand(1,$max_num).'.jpg';
+echo '/images/'.mt_rand(1,$max_num).'-randBG.jpg';
 ```
 
-## 存在的问题
-* 好像不能传相对路径
-* 应该对下载状态弄一个判断，下载成功与否
-* 发现定格在 30.jpg了， 简单看了下 应该是 ls 那里的锅
+## 优化
+* 下载 wget 结果加判断，不然下载失败max文件数字依然增加
+* 增加一个下载文件类型判断，这样可以下载不同的东西了
