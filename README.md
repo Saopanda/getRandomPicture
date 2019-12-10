@@ -8,7 +8,7 @@ https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture
 ## 执行
 
 ```
-./downpicture /var/wwwroot/images
+./downpicture {下载路径}
 ```
 
 ## 用PHP读一个随机图

@@ -14,27 +14,38 @@ else
 fi
 
 # 第二阶段 开始搞文件名 找当前目录内存在的最大数字
-# 将文件名搞到数组里 file_name_array
-num=0
-for str in `ls $file_path`
-do
-    file_name_array[$num]=${str%.*}
-    num+=1
-done
-echo ${file_name_array[*]}
-# 对文件名数组进行自然数倒序排序，变成新数组
-file_name_array=$(echo ${file_name_array[*]} | tr ' ' '\n' | sort -n -r)
-file_name_array=($file_name_array)
-# 判断数组内第一个元素是不是数字
-if [ ${file_name_array[0]} -gt 0 ] 2>/dev/null
-    file_num=$(echo `expr ${file_name_array[0]} + 1`)
-    then file_name=${file_num}.jpg
+
+# 找到我们的专属文件,并且倒序排列一下 `-r`
+file_names=`ls -r ${file_path}*-randBG.jpg 2>/dev/null`
+# 判断 ls 是否出错
+if [ $? -eq 1 ]
+	# 找不到序号为 1
+	then file_num=1
+
+elif [ -z $file_names ]
+
+	# 如果为空 序号为 1
+	then file_num=1
+
 else
-# 不是数字退出
-    echo '目录内没有纯数字文件！';exit;
+	# 处理数组
+	a=0
+	for str in $file_names
+		do
+			file_names_array[a]=${str##*/}
+			let a++
+		done
+
+	# 使用sort排序 获得文件名数组
+	file_names=($(echo ${file_names_array[*]} | tr ' ' '\n' | sort -n -r))
+	# 拿到最大数值
+	max_file_name_num=${file_names[0]%%-*}
+	file_num=$[$max_file_name_num+1]
 fi
 
-# 下载随机图
+file_name=${file_num}-randBG.jpg
+
+# 下载
 wget -O $file_path$file_name $file_url
-echo -n $file_num > ${file_path}/max
+echo -n $max_file_name_num > ${file_path}/max
 exit;
