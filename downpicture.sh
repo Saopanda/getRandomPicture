@@ -47,5 +47,5 @@ file_name=${file_num}-randBG.jpg
 
 # 下载
 wget -O $file_path$file_name $file_url
-echo -n $max_file_name_num > ${file_path}/max
+echo -n $file_num > ${file_path}/max
 exit;
